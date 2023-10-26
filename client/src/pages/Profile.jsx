@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from 'react'
 import {getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable} from 'firebase/storage'
 import { app } from '..firebase';
 import { useDispatch } from 'react-redux';
-import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice';
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOut, } from '../redux/user/userSlice';
 
 
 
@@ -92,6 +92,15 @@ export default function Profile() {
         }
       }
 
+      const handleSignOut = async () =>  {
+        try {
+        await fetch('/api/auth/signout');
+        dispatch(signOut());
+        
+      } catch (error) {
+
+      }}
+    
   return (
     <div className='p-3 max-w-lg mx-auto' >Profile
       <h1 className='text-3xl font-semibold text-center my-7'></h1>
@@ -134,7 +143,7 @@ export default function Profile() {
         
         <span onClick={handleDeleteAccount} className='text-red-700 cursor-pointer'>Delete Account</span>
         
-        <span className='text-red-700 cursor-pointer'>Sign Out</span>
+        <span onClick={handleSignOut} className='text-red-700 cursor-pointer'>Sign Out</span>
       </div>
       <p className='text-red-700 mt-5'>{error && 'Something went wrong!'}</p>
       <p className='text-green-700 mt-5'>{updateSuccess && 'User is updated successfully!'}</p>
